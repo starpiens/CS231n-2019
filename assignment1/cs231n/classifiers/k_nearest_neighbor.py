@@ -77,7 +77,7 @@ class KNearestNeighbor(object):
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-                pass
+                dists[i][j] = np.sum((self.X_train[j]-X[i])**2)**0.5
 
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -101,7 +101,7 @@ class KNearestNeighbor(object):
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            dists[i] = np.sum((self.X_train-X[i])**2, axis=1)**0.5
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -131,7 +131,11 @@ class KNearestNeighbor(object):
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        u = np.sum(X**2, axis=1)
+        v = np.sum(self.X_train**2, axis=1)
+        s = u.reshape(-1, 1) + v
+        t = np.dot(X, self.X_train.T)
+        dists = (s - 2*t)**0.5
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -143,7 +147,7 @@ class KNearestNeighbor(object):
 
         Inputs:
         - dists: A numpy array of shape (num_test, num_train) where dists[i, j]
-          gives the distance betwen the ith test point and the jth training point.
+          gives the distance between the ith test point and the jth training point.
 
         Returns:
         - y: A numpy array of shape (num_test,) containing predicted labels for the
@@ -164,7 +168,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            closest_train = np.argsort(dists[i])[:k]
+            closest_y = self.y_train[closest_train]
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
             #########################################################################
@@ -176,7 +181,8 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            pass
+            (y,cnt) = np.unique(closest_y,return_counts=True)
+            y_pred[i] = y[np.argmax(cnt)]
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
