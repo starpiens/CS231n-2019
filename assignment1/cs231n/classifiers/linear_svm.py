@@ -83,13 +83,18 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    scores = X.dot(W)   # (N, C)
+    # (N, C). scores[i][j] = score of ith training example on jth class
+    scores = X.dot(W)
     num_train = X.shape[0]
-    correct_class_score = scores[list(range(num_train)), y].reshape(-1, 1)    # (N, 1)
+    # (N, 1). correct_class_score[i] = score of y_i
+    correct_class_score = scores[list(range(num_train)), y].reshape(-1, 1)
 
-    loss_before_hinged = scores - correct_class_score + 1    # (N, C)
-    loss = np.sum(np.maximum(loss_before_hinged, 0))
-    loss = loss / num_train - 1
+    # (N, C). margin[i][j] = margin of ith training example on jth class
+    margin = scores - correct_class_score + 1
+    margin[list(range(num_train)), y] = 0
+    margin = np.maximum(margin, 0)
+    loss = np.sum(margin)
+    loss /= num_train
     loss += reg * np.sum(W * W)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -105,7 +110,10 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-    pass
+    margin[margin > 0] = 1
+    margin[np.arange(num_train), y] = -margin.sum(axis=1)
+    dW = X.T.dot(margin) / num_train
+    dW += reg * 2 * W
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
