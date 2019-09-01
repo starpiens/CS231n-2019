@@ -6,8 +6,8 @@ Assignments for [Convolutional Neural Networks for Visual Recognition](http://cs
 
 ## Assignment #1
 Image Classification, kNN, SVM, Softmax, Neural Network
-- [Q1](https://github.com/starlettkim/CS231n/blob/master/assignment1/knn.ipynb): k-Nearest Neighbor classifier (Working)
-- Q2: Training a Support Vector Machine
+- [Q1](https://github.com/starlettkim/CS231n/blob/master/assignment1/knn.ipynb): k-Nearest Neighbor classifier (Done)
+- [Q2](https://github.com/starlettkim/CS231n/blob/master/assignment1/svm.ipynb): Training a Support Vector Machine (Done)
 - Q3: Implement a Softmax classifier
 - Q4: Two-Layer Neural Network
 - Q5: Higher Level Representations: Image Features
