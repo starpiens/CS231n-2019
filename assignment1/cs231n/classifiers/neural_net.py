@@ -80,7 +80,9 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        fc1 = X.dot(W1) + b1         # (N, H)
+        fc1 = np.maximum(fc1, 0)     # Apply RELU
+        scores = fc1.dot(W2) + b2    # (N, C)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -98,7 +100,10 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        scores = np.exp(scores)
+        loss_vec = -np.log(scores[np.arange(N), y] / np.sum(scores, axis=1))
+        loss = np.mean(loss_vec)
+        loss += reg * (np.sum(W1 * W1) + np.sum(W2 * W2))
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
